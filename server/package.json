@@ -1,0 +1,13 @@
+{
+  "name": "gnauralcity-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "./bun.exe run ../../HostKitCore/server/dev-watch.ts --entry server.ts --default-port 3310",
+    "start": "./bun.exe run server.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.12"
+  }
+}

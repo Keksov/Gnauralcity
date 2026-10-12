@@ -1,0 +1,25 @@
+// Compiler options and the whole `paths` come from the HostKitCore host UI factory through the GENERATED
+// tsconfig.hostkit.json (edit `hostUi` in quasar.config.ts and regenerate); include/exclude are this
+// host's: its src, the module it hosts (GnauralCore/ui) and the shell (HostKitCore/ui) — the factory
+// itself is build-time node code, type-checked through its tests in tsconfig.test.json.
+{
+  "extends": "./tsconfig.hostkit.json",
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "../../GnauralCore/ui/**/*.ts",
+    "../../GnauralCore/ui/**/*.vue",
+    "../../HostKitCore/ui/**/*.ts",
+    "../../HostKitCore/ui/**/*.vue",
+    "env.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".quasar",
+    "dist",
+    "**/*.test.ts",
+    "../../GnauralCore/ui/**/*.test.ts",
+    "../../HostKitCore/ui/**/*.test.ts",
+    "../../HostKitCore/ui/factory/**"
+  ]
+}

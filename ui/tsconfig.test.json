@@ -1,0 +1,26 @@
+// The type check of TESTS (F-0066, QF-D2): `bun test` strips types without checking them and
+// tsconfig.json excludes *.test.ts, so the tests of the UI trees this host compiles — GnauralCore/ui and
+// HostKitCore/ui — are checked by this second program, `typecheck:tests` (package.json); validate-qa.js
+// (workspace root) checks that it reaches every one of them. A program of its own, with bun's types
+// (installed here, @types/bun), because only tests run under bun — browser code must not accept Bun.*.
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["@quasar/app-vite", "bun"],
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "include": [
+    "**/*.test.ts",
+    "../../GnauralCore/ui/**/*.test.ts",
+    "../../HostKitCore/ui/**/*.test.ts",
+    "env.d.ts"
+  ],
+  // Replaces the inherited exclude whole — the inherited one drops exactly the tests.
+  "exclude": [
+    "node_modules",
+    ".quasar",
+    "dist",
+    "../../GnauralCore/ui/node_modules",
+    "../../HostKitCore/ui/node_modules"
+  ]
+}

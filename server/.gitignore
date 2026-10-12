@@ -1,0 +1,21 @@
+node_modules/
+bun.exe
+bunx.exe
+bunx.txt
+
+# AppCore launcher binaries (sync-only via HostKitCore/scripts/sync-appcore-launcher.ps1; AP-D7a)
+AppMain.exe
+libwebview.dll
+
+# AppCore per-machine window state: kiosk rects keyed by monitor GUID. Purely local — sharing it
+# would push one machine's monitor layout onto every other. (AppCore.ico/.ini ARE tracked: branding.)
+AppCore.window
+
+# Runtime state
+var/
+
+# Generated frontend build output
+public/
+
+# Runtime caches
+tmp/
