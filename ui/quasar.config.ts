@@ -25,14 +25,10 @@ export const hostUi: HostUiConfig = {
 
   distDir: resolve(currentDir, '..', 'server', 'public'),
 
-  // The shared protocol, as in MindWave, until it is cut by owners (GCY3.1, GCY-D23). Gnauralcity's
-  // server has no protocol.ts re-export, so the type checker reaches the file itself.
-  aliases: {
-    '@protocol': resolve(currentDir, '..', '..', 'SharedPasCore', 'ts', 'protocol.ts')
-  },
-  tsPaths: {
-    '@protocol': ['../../SharedPasCore/ts/protocol.ts']
-  },
+  // GCY3.1 (GCY-D23): no aliases of its own — the shared protocol's alias went with the cut
+  // by owners; GnauralCore imports its own protocol (GnauralCore/ui/protocol) by relative path.
+  aliases: {},
+  tsPaths: {},
 
   // GnauralCore's third-party libraries: codemirror — its XML editor.
   modulePins: [
