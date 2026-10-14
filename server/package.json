@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "./bun.exe run ../../HostKitCore/server/dev-watch.ts --entry server.ts --default-port 3310",
+    "dev": "HK_DEV=1 ./bun.exe run ../../HostKitCore/server/dev-watch.ts --entry server.ts --default-port 3310",
     "start": "./bun.exe run server.ts"
   },
   "devDependencies": {
