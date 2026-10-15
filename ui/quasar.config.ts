@@ -35,6 +35,9 @@ export const hostUi: HostUiConfig = {
     { name: 'codemirror' },
     { scope: '@codemirror' }
   ],
+  // GCY4.1 (GCY-D14): its one module imported BY NAME — `@gnauralcore/ui` and its declared entries (the
+  // `exports` of GnauralCore/ui/package.json), turned by the factory into anchored aliases and exact paths.
+  modulePackages: [resolve(currentDir, '..', '..', 'GnauralCore', 'ui')],
   chunks: [],
 
   // The dev proxy's backend when AppCore passes no PORT (server.ts, app.cfg).

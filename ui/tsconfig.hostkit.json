@@ -34,6 +34,24 @@
       "@hostkit/*": [
         "../../HostKitCore/ui/*"
       ],
+      "@gnauralcore/ui": [
+        "../../GnauralCore/ui/index.ts"
+      ],
+      "@gnauralcore/ui/module": [
+        "../../GnauralCore/ui/module.ts"
+      ],
+      "@gnauralcore/ui/plugin": [
+        "../../GnauralCore/ui/plugin.ts"
+      ],
+      "@gnauralcore/ui/widgets": [
+        "../../GnauralCore/ui/widgets.ts"
+      ],
+      "@gnauralcore/ui/protocol": [
+        "../../GnauralCore/ui/protocol/index.ts"
+      ],
+      "@gnauralcore/ui/i18n": [
+        "../../GnauralCore/ui/i18n/index.ts"
+      ],
       "codemirror": [
         "./node_modules/codemirror"
       ],
