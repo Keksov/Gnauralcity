@@ -7,7 +7,9 @@
 
 import { join, resolve } from "node:path"
 
-import { createGnauralServerModule } from "../../GnauralCore/server"
+// GCY4.1 (GCY-D14): the component BY NAME, through its declared entry — the `paths` of tsconfig.json next
+// to this file map `@gnauralcore/server` to GnauralCore/server/index.ts (Bun reads them at runtime).
+import { createGnauralServerModule } from "@gnauralcore/server"
 import { ensureLoopbackNoProxy } from "../../HostKitCore/server/loopback"
 import { resolveServerPort } from "../../HostKitCore/server/port"
 import { startHostServer, UI_WS_TOPIC, type HostServerInstance } from "../../HostKitCore/server/start"

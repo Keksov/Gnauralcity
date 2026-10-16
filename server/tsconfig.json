@@ -1,0 +1,16 @@
+{
+  // GCY4.1 (plan gnauralcity, GCY-D14): the names of the module packages this server imports — and
+  // nothing else. Bun resolves a bare name by the `paths` of the tsconfig.json NEAREST to the importing
+  // file (measured on Bun 1.3.13, independent of cwd): without this file `@gnauralcore/server` does not
+  // resolve and the server does not start. Exact keys, no `*` — the entries the package declares in its
+  // `exports` (GnauralCore/server/package.json); a path it does not declare resolves nowhere.
+  // This folder is TYPE-checked in MindWaveCore/server's program (`bun run typecheck` there), whose own
+  // tsconfig.json carries the same keys — `paths` apply per program, and that program holds these files.
+  // The dev watcher follows these paths (HostKitCore/server/import-graph.ts), and validate-qa.js checks
+  // that every `@gnauralcore/*` name used here resolves to the declared file.
+  "compilerOptions": {
+    "paths": {
+      "@gnauralcore/server": ["../../GnauralCore/server/index.ts"]
+    }
+  }
+}
