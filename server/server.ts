@@ -11,6 +11,7 @@ import { join, resolve } from "node:path"
 // to this file map `@gnauralcore/server` to GnauralCore/server/index.ts (Bun reads them at runtime).
 import { createGnauralServerModule } from "@gnauralcore/server"
 import { ensureLoopbackNoProxy } from "../../HostKitCore/server/loopback"
+import { readHostEnv } from "../../HostKitCore/server/host-env"
 import { resolveServerPort } from "../../HostKitCore/server/port"
 import { startHostServer, UI_WS_TOPIC, type HostServerInstance } from "../../HostKitCore/server/start"
 
@@ -26,7 +27,8 @@ const USER_DATA_ROOT_NAME = "Gnauralcity"
 const hostDir = import.meta.dir
 
 // The host's environment, under the neutral names of GCY-D38 from the start — this host has no MW_*
-// legacy to fall back on. All three are unset in normal operation; a sandbox (a probe; uitest, GCY5.1)
+// legacy to fall back on, so HostKitCore's readHostEnv is called without a fallback (GCY4.4); an empty
+// value counts as unset. All three are unset in normal operation; a sandbox (a probe; uitest, GCY5.1)
 // sets them before the process starts.
 //   HK_RUNTIME_DIR — the runtime folder (GCY-D26): `var/gnaural-settings.json`, the component's settings
 //                    store — the module's own here (GCY-D24: no settings migration in this host).
@@ -35,9 +37,9 @@ const hostDir = import.meta.dir
 //                    are confined to this root (GnauralCore/server/write-fence.ts). Default: none.
 //   HK_DEV=1       — DEV mode (`bun run dev` sets it): the server half of the journal trail is on
 //                    unconditionally (AGENTS.md, «Журнальный след»).
-const runtimeDir = Bun.env.HK_RUNTIME_DIR?.trim() || hostDir
-const writeFenceRoot = Bun.env.HK_WRITE_FENCE?.trim() ?? ""
-const IS_DEV = Bun.env.HK_DEV === "1"
+const runtimeDir = readHostEnv("HK_RUNTIME_DIR") ?? hostDir
+const writeFenceRoot = readHostEnv("HK_WRITE_FENCE") ?? ""
+const IS_DEV = readHostEnv("HK_DEV") === "1"
 
 // The skeleton's Bun server — declared BEFORE the module, whose publish function closes over it;
 // assigned by startHostServer below. The module publishes only after the start (session and watcher
