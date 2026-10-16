@@ -1,6 +1,6 @@
 import { boot } from 'quasar/wrappers'
 import { assembleAppMessages } from '@hostkit/app/app-messages'
-import { configureHostKeys } from '@hostkit/app/host-keys'
+import { configureHostKeys, hostKey } from '@hostkit/app/host-keys'
 import { installHostI18n } from '@hostkit/app/host-i18n'
 import { openBunActionsDialog } from '@hostkit/shell/bun-actions'
 import { selectAppLocale, type AppLocaleRef } from '@hostkit/shell/language'
@@ -34,9 +34,10 @@ function hostMenuItems(locale: AppLocaleRef): readonly MenuNode[] {
 // The host's one boot file, in the order the shell needs: the key prefix of every name the shell and
 // the panel framework write (GCY-D22) — before anything names a key; vue-i18n with the host's, the
 // shell's and the module's messages (the saved language under 'gnauralcity-locale'); then the module's
-// plugin on the shell's ws transport, with the host's menu items.
+// plugin on the shell's ws transport, with the shell's naming function (the module's view keys go under
+// the same prefix — 'gnauralcity-…', GCY4.3) and the host's menu items.
 export default boot(({ app }) => {
   configureHostKeys({ keyPrefix: 'gnauralcity-' })
   const i18n = installHostI18n(app, assembleAppMessages({ en, ru }, registeredModules))
-  app.use(createGnauralPlugin({ ws: wsService, menuItems: hostMenuItems(i18n.locale) }))
+  app.use(createGnauralPlugin({ ws: wsService, hostKey, menuItems: hostMenuItems(i18n.locale) }))
 })
