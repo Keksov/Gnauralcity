@@ -26,10 +26,10 @@ const USER_DATA_ROOT_NAME = "Gnauralcity"
 
 const hostDir = import.meta.dir
 
-// The host's environment, under the neutral names of GCY-D38 from the start — this host has no MW_*
-// legacy to fall back on, so HostKitCore's readHostEnv is called without a fallback (GCY4.4); an empty
-// value counts as unset. All of them are unset in normal operation; a sandbox (a probe; uitest, GCY5.1)
-// sets them before the process starts.
+// The host's environment, under the neutral names of GCY-D38 from the start, read by HostKitCore's
+// readHostEnv; an empty value counts as unset. This host never had MindWave's MW_* names, so it declares no
+// retired ones (MindWave's server.ts does, noticeRetiredHostEnv). All of them are unset in normal operation;
+// a sandbox (a probe; uitest, GCY5.1) sets them before the process starts.
 //   HK_RUNTIME_DIR — the runtime folder (GCY-D26): `var/gnaural-settings.json`, the component's settings
 //                    store — the module's own here (GCY-D24: no settings migration in this host).
 //                    Default: this folder.
