@@ -16,12 +16,14 @@ the KKMindWave workspace — it is configuration over the shared kit, not code o
   Environment (all unset in normal use): `HK_RUNTIME_DIR` — another runtime folder (the settings file
   goes there; the diagnostics logs stay in `server/var`), `HK_WRITE_FENCE` — a sandbox write fence,
   `HK_DEV=1` — DEV mode (`bun run dev` sets it). The spectrum worker is found by GnauralCore's resolver:
-  `SPECTRUMCORE_WORKER_EXE`, else `server/vendor/spectrumcore/`, else the neighbouring
-  `SpectrumCore/build` (this host has no `vendor/` copy yet — bundling into every host is step GCY5.3).
+  `SPECTRUMCORE_WORKER_EXE`, else `server/vendor/spectrumcore/<platform>` (the bundled copy, since
+  GCY5.3: `SpectrumCore/scripts/bundle-worker.ps1` fills it in every host of `hosts.json`; only its
+  `manifest.json` is tracked), else the neighbouring `SpectrumCore/build`.
 - `server/app.cfg`, `AppCore.ini`, `AppCore.ico` — AppCore WebView2 launch: ports 3310 (server) and
   9010 (quasar dev), window title "Gnauralcity", a draft icon.
 
-Install and launch, from the workspace root (the bootstrap does the first two for every host):
+Install and launch, from the workspace root (the bootstrap does the first two for every host of
+`hosts.json`; the launcher sync there copies only the files the host does not have yet, `-MissingOnly`):
 
     HostKitCore\scripts\init-host.bat Gnauralcity\server
     powershell -File HostKitCore\scripts\sync-appcore-launcher.ps1 -ServerDir Gnauralcity\server
