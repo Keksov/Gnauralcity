@@ -28,7 +28,7 @@ const hostDir = import.meta.dir
 
 // The host's environment, under the neutral names of GCY-D38 from the start — this host has no MW_*
 // legacy to fall back on, so HostKitCore's readHostEnv is called without a fallback (GCY4.4); an empty
-// value counts as unset. All three are unset in normal operation; a sandbox (a probe; uitest, GCY5.1)
+// value counts as unset. All of them are unset in normal operation; a sandbox (a probe; uitest, GCY5.1)
 // sets them before the process starts.
 //   HK_RUNTIME_DIR — the runtime folder (GCY-D26): `var/gnaural-settings.json`, the component's settings
 //                    store — the module's own here (GCY-D24: no settings migration in this host).
@@ -37,9 +37,15 @@ const hostDir = import.meta.dir
 //                    are confined to this root (GnauralCore/server/write-fence.ts). Default: none.
 //   HK_DEV=1       — DEV mode (`bun run dev` sets it): the server half of the journal trail is on
 //                    unconditionally (AGENTS.md, «Журнальный след»).
+//   HK_IDLE_TIMEOUT_SEC — the HTTP idle timeout, seconds (GCY5.2, as in MindWave's server.ts). Default 0 —
+//                    no idle timeout, the fix of F-0026: a FINITE one leaves zombie sockets while a ws is
+//                    alive, and an edit's write hangs forever. The knob exists only for a sandbox stand that
+//                    reproduces F-0026; the uitest lock T-42 reads this very line from the source
+//                    (MindWaveCore/uitest/src/server-idle-setting.ts) to derive its pause — keep its form.
 const runtimeDir = readHostEnv("HK_RUNTIME_DIR") ?? hostDir
 const writeFenceRoot = readHostEnv("HK_WRITE_FENCE") ?? ""
 const IS_DEV = readHostEnv("HK_DEV") === "1"
+const SERVER_IDLE_TIMEOUT_SEC = Number(readHostEnv("HK_IDLE_TIMEOUT_SEC") ?? 0)
 
 // The skeleton's Bun server — declared BEFORE the module, whose publish function closes over it;
 // assigned by startHostServer below. The module publishes only after the start (session and watcher
@@ -63,8 +69,8 @@ const gnaural = createGnauralServerModule({
 
 server = startHostServer({
   port: resolveServerPort(DEFAULT_SERVER_PORT),
-  // 0: no idle timeout — a finite one leaves zombie ws sockets (F-0026).
-  idleTimeout: 0,
+  // 0 by default: no idle timeout — a finite one leaves zombie ws sockets (F-0026); see HK_IDLE_TIMEOUT_SEC above.
+  idleTimeout: SERVER_IDLE_TIMEOUT_SEC,
   publicDir: join(hostDir, "public"),
   admin: {
     uiDir: resolve(hostDir, "..", "ui"),
